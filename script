@@ -1,0 +1,86 @@
+CREATE TABLE Cliente (
+    cliente_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    cpf CHAR(11),
+    email VARCHAR(100),
+    telefone VARCHAR(15)
+);
+
+
+CREATE TABLE Vendedor (
+    vendedor_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    email VARCHAR(100),
+    salario DECIMAL(10,2)
+);
+
+
+CREATE TABLE Produto (
+    produto_id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100),
+    preco DECIMAL(10,2),
+    estoque INT
+);
+
+CREATE TABLE Venda (
+    venda_id INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_id INT,
+    vendedor_id INT,
+    data_venda DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (cliente_id) REFERENCES Cliente(cliente_id),
+    FOREIGN KEY (vendedor_id) REFERENCES Vendedor(vendedor_id)
+);
+
+CREATE TABLE ItemVenda (
+    item_id INT PRIMARY KEY AUTO_INCREMENT,
+    venda_id INT,
+    produto_id INT,
+    quantidade INT,
+    preco_unitario DECIMAL(10,2),
+    FOREIGN KEY (venda_id) REFERENCES Venda(venda_id),
+    FOREIGN KEY (produto_id) REFERENCES Produto(produto_id)
+);
+
+CREATE TABLE Codigo (
+    codigo_id INT PRIMARY KEY AUTO_INCREMENT,
+    codigo VARCHAR(50) UNIQUE NOT NULL,
+    descricao VARCHAR(255),
+    data_validade DATE,
+    desconto DECIMAL(5,2),
+    ativo BOOLEAN DEFAULT TRUE
+);
+
+SELECT * FROM funcionarios;
+SELECT nome FROM departamentos;
+SELECT * FROM produtos WHERE preco > 100;
+SELECT * FROM clientes;
+SELECT f.nome AS funcionario, d.nome AS departamento
+FROM funcionarios f
+JOIN departamentos d ON f.departamento_id = d.id;
+SELECT COUNT(*) AS total_funcionarios FROM funcionarios;
+SELECT COUNT(*) AS total_produtos FROM produtos;
+SELECT COUNT(*) AS total_pedidos_2024 
+FROM pedidos
+WHERE YEAR(data_pedido) = 2024;
+SELECT SUM(valor_total) AS valor_total_vendas FROM pedidos;
+SELECT SUM(valor_total) AS total_vendas_func5 
+FROM pedidos 
+WHERE funcionario_id = 5;
+SELECT COUNT(*) AS total_pedidos_joao
+FROM pedidos p
+JOIN clientes c ON p.cliente_id = c.id
+WHERE c.nome = 'João Silva';
+SELECT SUM(f.salario) AS total_salarios_vendas
+FROM funcionarios f
+JOIN departamentos d ON f.departamento_id = d.id
+WHERE d.nome = 'Vendas';
+SELECT COUNT(*) AS funcionarios_acima_3000
+FROM funcionarios
+WHERE salario > 3000;
+SELECT COUNT(*) AS produtos_acima_100
+FROM produtos
+WHERE preco > 100;
+SELECT SUM(valor_total) AS total_pedidos_cliente2
+FROM pedidos
+WHERE cliente_id = 2;
