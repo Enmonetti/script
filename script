@@ -50,37 +50,33 @@ CREATE TABLE Codigo (
     desconto DECIMAL(5,2),
     ativo BOOLEAN DEFAULT TRUE
 );
-
-SELECT * FROM funcionarios;
-SELECT nome FROM departamentos;
-SELECT * FROM produtos WHERE preco > 100;
-SELECT * FROM clientes;
-SELECT f.nome AS funcionario, d.nome AS departamento
-FROM funcionarios f
-JOIN departamentos d ON f.departamento_id = d.id;
-SELECT COUNT(*) AS total_funcionarios FROM funcionarios;
-SELECT COUNT(*) AS total_produtos FROM produtos;
-SELECT COUNT(*) AS total_pedidos_2024 
-FROM pedidos
-WHERE YEAR(data_pedido) = 2024;
-SELECT SUM(valor_total) AS valor_total_vendas FROM pedidos;
-SELECT SUM(valor_total) AS total_vendas_func5 
-FROM pedidos 
-WHERE funcionario_id = 5;
-SELECT COUNT(*) AS total_pedidos_joao
-FROM pedidos p
-JOIN clientes c ON p.cliente_id = c.id
+SELECT * FROM Vendedor;
+SELECT DISTINCT nome FROM Cliente;
+SELECT * FROM Produto WHERE preco > 100;
+SELECT * FROM Cliente;
+SELECT v.nome AS vendedor, vd.venda_id AS venda
+FROM Vendedor v
+JOIN Venda vd ON v.vendedor_id = vd.vendedor_id;
+SELECT COUNT(*) AS total_vendedores FROM Vendedor;
+SELECT COUNT(*) AS total_produtos FROM Produto;
+SELECT COUNT(*) AS total_vendas_2024 
+FROM Venda
+WHERE YEAR(data_venda) = 2024;
+SELECT SUM(total) AS valor_total_vendas FROM Venda;
+SELECT SUM(total) AS total_vendas_vendedor5 
+FROM Venda 
+WHERE vendedor_id = 5;
+SELECT COUNT(*) AS total_vendas_joao
+FROM Venda v
+JOIN Cliente c ON v.cliente_id = c.cliente_id
 WHERE c.nome = 'João Silva';
-SELECT SUM(f.salario) AS total_salarios_vendas
-FROM funcionarios f
-JOIN departamentos d ON f.departamento_id = d.id
-WHERE d.nome = 'Vendas';
-SELECT COUNT(*) AS funcionarios_acima_3000
-FROM funcionarios
+SELECT SUM(salario) AS total_salarios FROM Vendedor;
+SELECT COUNT(*) AS vendedores_acima_3000
+FROM Vendedor
 WHERE salario > 3000;
 SELECT COUNT(*) AS produtos_acima_100
-FROM produtos
+FROM Produto
 WHERE preco > 100;
-SELECT SUM(valor_total) AS total_pedidos_cliente2
-FROM pedidos
+SELECT SUM(total) AS total_vendas_cliente2
+FROM Venda
 WHERE cliente_id = 2;
